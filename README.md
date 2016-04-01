@@ -2,11 +2,6 @@
 
 This project is a Docker container for [Consul](http://www.consul.io/) and is a fork of the gliderlabs/docker-consul project which was the evolution of the progrium/consul project.
 
-There are three versions of the container available:
--consul
--consul-client
--consul-server
-
 The focus is primarily on providing both documentation and simple configuration to allow anyone working with Docker Swarm a quick way to get a Discovery Backend up and running.
 
 ## Getting the container
@@ -17,7 +12,7 @@ The container is very small (less than 50MB, based on [Alpine Linux](https://hub
 
 ## Using the container
 
-#### Taking Consul for a spin
+### Taking Consul for a spin
 
 If you just want to run a single instance of Consul Server to try out its functionality:
 
@@ -26,6 +21,13 @@ If you just want to run a single instance of Consul Server to try out its functi
 The [Web UI](http://www.consul.io/intro/getting-started/ui.html) is enabled by default and is accessible via `http://host:8500/ui/`.
 
 In the above example, we are exposing ports 8400 (RPC), 8500 (HTTP) and 8600 (DNS). To ensure proper configuration, ensure that you set a host name via the -h flag when using docker run. This is used to set the Consul Agent node name by using the containers host name. 
+
+
+### Leveraging Ansible to launch Consul Containers
+
+
+
+### Networking Consul in an Amazon VPC
 
 
 ## Remaining documentation is being re-written and updated
@@ -47,7 +49,7 @@ If you want to start a Consul cluster on a single host to experiment with cluste
 
 Here we start the first node not with `-bootstrap`, but with `-bootstrap-expect 3`, which will wait until there are 3 peers connected before self-bootstrapping and becoming a working cluster.
 
-	$ docker run -d --name node1 -h node1 progrium/consul -server -bootstrap-expect 3
+	$ docker run -d --name node1 -h node1 troyfontaine/consul-server -server -bootstrap-expect 3
 
 We can get the container's internal IP by inspecting the container. We'll put it in the env var `JOIN_IP`.
 
@@ -55,11 +57,11 @@ We can get the container's internal IP by inspecting the container. We'll put it
 
 Then we'll start `node2` and tell it to join `node1` using `$JOIN_IP`:
 
-	$ docker run -d --name node2 -h node2 progrium/consul -server -join $JOIN_IP
+	$ docker run -d --name node2 -h node2 troyfontaine/consul-server -server -join $JOIN_IP
 
 Now we can start `node3` the same way:
 
-	$ docker run -d --name node3 -h node3 progrium/consul -server -join $JOIN_IP
+	$ docker run -d --name node3 -h node3 troyfontaine/consul-server -server -join $JOIN_IP
 
 We now have a real three node cluster running on a single host. Notice we've also named the containers after their internal hostnames / node names.
 
