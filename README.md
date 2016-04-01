@@ -6,7 +6,7 @@ The focus is primarily on providing both documentation and simple configuration 
 
 ## Getting the container
 
-The container is very small (less than 50MB, based on [Alpine Linux](https://hub.docker.com/_/alpine/)) and available on Docker Hub (soon):
+The container is very small (less than 50MB, based on [Alpine Linux](https://hub.docker.com/_/alpine/)) and available on Docker Hub:
 
 ```$ docker pull troyfontaine/consul-server```
 
