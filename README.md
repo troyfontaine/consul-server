@@ -34,7 +34,7 @@ Using the Docker module in Ansible to launch a consul container is simple.  The 
 - name: "Testing Consul with Ansible"
   hosts: test1
   tasks:
-    - name: "Docker Swarm Manager | Launch Discovery Backends"
+    - name: "Launch Consul Container"
       become: True
       docker:
         name: "consul_node1"
