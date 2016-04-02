@@ -7,7 +7,7 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build -t troyfontaine/consul-server
+    - docker build -t troyfontaine/consul-server .
 
 test:
   override:
