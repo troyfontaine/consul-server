@@ -25,17 +25,10 @@ In the above example, we are exposing ports 8400 (RPC), 8500 (HTTP) and 8600 (DN
 ### Using Consul in a High Availability Configuration
 
 
-### Leveraging Ansible to launch Consul Containers
-
-
 ### Networking Consul in an Amazon VPC
 
 
 ### Leveraging Ansible to launch Consul Containers
-
-
-
-### Networking Consul in an Amazon VPC
 
 
 ## Remaining documentation is being re-written and updated
