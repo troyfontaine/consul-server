@@ -18,15 +18,14 @@ If you just want to run a single instance of Consul Server to try out its functi
 
 ```$ docker run -p 8400:8400 -p 8500:8500 -p 8600:53/udp -h node1 troyfontaine/consul-server -server -bootstrap```
 
-The [Web UI](http://www.consul.io/intro/getting-started/ui.html) is enabled by default (via the pre-configured server.json) and is accessible via `http://host:8500/ui/`.
+The [Web UI](http://www.consul.io/intro/getting-started/ui.html) is enabled by default (via the pre-configured server.json) and is accessible via the url `http://yourhost:8500/ui/`.
 
 In the above example, we are exposing ports 8400 (RPC), 8500 (HTTP) and 8600 (DNS). To ensure proper configuration, ensure that you set a host name via the -h flag when using docker run. This is used to set the Consul Agent node name by using the containers host name. 
 
-#### Using Consul in a High Availability Configuration
+### Using Consul in a High Availability Configuration
 
 
 ### Leveraging Ansible to launch Consul Containers
-
 
 
 ### Networking Consul in an Amazon VPC
