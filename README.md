@@ -1,5 +1,7 @@
 # A Dockerized Consul Container
 
+[![](https://badge.imagelayers.io/troyfontaine/consul-server:latest.svg)](https://imagelayers.io/?images=troyfontaine/consul-server:latest 'Get your own badge on imagelayers.io')
+
 This project is a Docker container for [Consul](http://www.consul.io/) and is a fork of the gliderlabs/docker-consul project which was the evolution of the progrium/consul project.
 
 The focus is primarily on providing both documentation and simple configuration to allow anyone working with Docker Swarm a quick way to get a Discovery Backend up and running.
