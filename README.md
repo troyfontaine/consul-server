@@ -65,12 +65,15 @@ Consul in a HA configuration requires a minimum of 3 "servers" to elect a leader
 In our example below, we have a cluster of 3 Consul Server Containers with each container running on a single Docker host.
 
 First Host: IP 192.168.0.10
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -bootstrap-expect=3```
 
 Second Host: IP 192.168.0.11
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -join 192.168.0.10```
 
 Third Host: IP 192.168.0.12
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
 
 ### Gossip Encryption (Or How to Encrypt Traffic Between Consul Nodes)
@@ -80,12 +83,15 @@ Third Host: IP 192.168.0.12
 In our example below, we have a cluster of 3 Consul Server Containers with each container running on a single Docker host.
 
 First Host: IP 192.168.0.10
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -bootstrap-expect=3```
 
 Second Host: IP 192.168.0.11
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
 
 Third Host: IP 192.168.0.12
+
 ```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
 
 ### Providing a Custom Configuration File
