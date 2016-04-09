@@ -1,8 +1,17 @@
 # A Dockerized Consul Container
 
+Master Branch:
+
 [![Circle CI](https://circleci.com/gh/troyfontaine/consul-server/tree/master.svg?style=shield)](https://circleci.com/gh/troyfontaine/consul-server/tree/master)
 
 [![](https://badge.imagelayers.io/troyfontaine/consul-server:latest.svg)](https://imagelayers.io/?images=troyfontaine/consul-server:latest 'Get your own badge on imagelayers.io')
+
+Test Branch:
+
+[![Circle CI](https://circleci.com/gh/troyfontaine/consul-server/tree/test.svg?style=shield)](https://circleci.com/gh/troyfontaine/consul-server/tree/test)
+
+[![](https://badge.imagelayers.io/troyfontaine/consul-server:test.svg)](https://imagelayers.io/?images=troyfontaine/consul-server:test 'Get your own badge on imagelayers.io')
+
 
 This project is a Docker container for [Consul](http://www.consul.io/) and is a fork of the [gliderlabs/docker-consul](https://github.com/gliderlabs/docker-consul/) project which was the evolution of the [progrium/consul](https://github.com/gliderlabs/docker-consul/tree/legacy) project.
 
