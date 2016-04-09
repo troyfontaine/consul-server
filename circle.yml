@@ -3,13 +3,3 @@ machine:
     America/Winnipeg # Set the timezone
   services:
     - docker
-
-dependencies:
-  override:
-    - docker info
-    - docker build -t troyfontaine/consul-server .
-
-test:
-  override:
-    - docker run -d -p 8400:8400 -p 8500:8500 -p 8600:53/udp -h node1 troyfontaine/consul-server -server -bootstrap; sleep 10
-    - curl --retry 10 --retry-delay 5 -v http://localhost:8500/ui/
