@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:3.3
 MAINTAINER Troy Fontaine
 
 ENV CONSUL_VERSION 0.6.4
