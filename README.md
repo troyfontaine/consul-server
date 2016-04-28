@@ -29,11 +29,11 @@ The container is very small (less than 50MB, based on [Alpine Linux](https://hub
 
 If you just want to run a single instance of Consul Server to try out its functionality:
 
-```$ docker run  -p 8500:8500 -h node1 troyfontaine/consul-server -server -bootstrap```
+```$ docker run -d -p 8500:8500 -h node1 troyfontaine/consul-server -server -bootstrap```
 
 The [Web UI](http://www.consul.io/intro/getting-started/ui.html) is enabled by default (via the pre-configured server.json) and is accessible via the url `http://yourhost:8500/ui/`.
 
-In the above example, we are exposing ports 8400 (RPC), 8500 (HTTP) and 8600 (DNS). To ensure proper configuration, ensure that you set a host name via the -h flag when using docker run. This is used to set the Consul Agent node name by using the containers host name. 
+In the above example, we are exposing ports 8500 (HTTP). To ensure proper configuration, ensure that you set a host name via the -h flag when using docker run. This is used to set the Consul Agent node name by using the containers host name. 
 
 
 ### Leveraging Ansible to Launch Consul Containers
@@ -63,11 +63,11 @@ Using the Docker module in Ansible to launch a consul container is simple.  The 
 ## Advanced Configurations
 
 
-### Setting the Data Center
+### Configuring the Data Center setting
 
 `datacenter` or `-dc=` are [configuration or command arguments respectively](https://www.consul.io/docs/agent/options.html#_dc) to instruct Consul to talk to local Consul servers.
 
-```$ docker run -p 8500:8500 -h node1 troyfontaine/consul-server -server -dc=MyDatacenter -bootstrap```
+```$ docker run -d -p 8500:8500 -h node1 troyfontaine/consul-server -server -dc=MyDatacenter -bootstrap```
 
 ### Using Consul in a High Availability Configuration
 
@@ -77,15 +77,24 @@ In our example below, we have a cluster of 3 Consul Server Containers with each 
 
 First Host: IP 192.168.0.10
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -bootstrap-expect=3```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 --name node1 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -bootstrap-expect=3```
 
 Second Host: IP 192.168.0.11
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -join 192.168.0.10```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 --name node2 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -join 192.168.0.10```
 
 Third Host: IP 192.168.0.12
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 --name node3 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
+
+Once the cluster is up and running, you must stop and remove node 1 from your first host to complete the set up of the cluster.
+```
+$docker stop node1
+$docker rm node1
+$docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 --name node1 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -join 192.168.0.11
+```
+
+Next, you need to bring up your Consul agent nodes on each of the Docker Swarm nodes.
 
 ### Gossip Encryption (Or How to Encrypt Traffic Between Consul Nodes)
 
@@ -95,15 +104,15 @@ In our example below, we have a cluster of 3 Consul Server Containers with each 
 
 First Host: IP 192.168.0.10
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -bootstrap-expect=3```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node1 troyfontaine/consul-server -server -advertise=192.168.0.10 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -bootstrap-expect=3```
 
 Second Host: IP 192.168.0.11
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node2 troyfontaine/consul-server -server -advertise 192.168.0.11 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
 
 Third Host: IP 192.168.0.12
 
-```$ docker run -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
+```$ docker run -d -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302 -p 8302:8302/udp -p 8400:8400 -p 8500:8500 -p 8600:8600 -h node3 troyfontaine/consul-server -server -advertise 192.168.0.12 -encrypt=qoeGiN6VQT2QUrqgQ68xuG== -join 192.168.0.10```
 
 ### Providing a Custom Configuration File
 
